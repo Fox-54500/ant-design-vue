@@ -15,6 +15,7 @@ const BaseTable = {
     tableClassName: PropTypes.string.isRequired,
     hasHead: PropTypes.bool.isRequired,
     hasBody: PropTypes.bool.isRequired,
+    hasSummary: PropTypes.bool,
     store: PropTypes.object.isRequired,
     expander: PropTypes.object.isRequired,
     getRowKey: PropTypes.func,
@@ -146,7 +147,7 @@ const BaseTable = {
 
   render() {
     const { sComponents: components, prefixCls, scroll, data, getBodyWrapper } = this.table;
-    const { expander, tableClassName, hasHead, hasBody, fixed } = this.$props;
+    const { expander, tableClassName, hasHead, hasBody, hasSummary, fixed } = this.$props;
 
     const tableStyle = {};
 
@@ -175,6 +176,7 @@ const BaseTable = {
         <ColGroup columns={columns} fixed={fixed} />
         {hasHead && <TableHeader expander={expander} columns={columns} fixed={fixed} />}
         {body}
+        {hasSummary && <TableHeader isSummary expander={expander} columns={columns} fixed={fixed} />}
       </Table>
     );
   },

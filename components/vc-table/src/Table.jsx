@@ -9,6 +9,7 @@ import { Provider, create } from '../../_util/store';
 import ColumnManager from './ColumnManager';
 import HeadTable from './HeadTable';
 import BodyTable from './BodyTable';
+import SummaryTable from './SummaryTable';
 import ExpandableTable from './ExpandableTable';
 import { initDefaultProps, getOptionProps } from '../../_util/props-util';
 import BaseMixin from '../../_util/BaseMixin';
@@ -20,6 +21,7 @@ export default {
     {
       data: PropTypes.array,
       useFixedHeader: PropTypes.bool,
+      useFixedSummary: PropTypes.bool,
       columns: PropTypes.array,
       prefixCls: PropTypes.string,
       bodyStyle: PropTypes.object,
@@ -33,6 +35,7 @@ export default {
       // onRowMouseEnter: PropTypes.func,
       // onRowMouseLeave: PropTypes.func,
       showHeader: PropTypes.bool,
+      showSummary: PropTypes.bool,
       title: PropTypes.func,
       id: PropTypes.string,
       footer: PropTypes.func,
@@ -48,6 +51,11 @@ export default {
           cell: PropTypes.any,
         }),
         body: PropTypes.shape({
+          wrapper: PropTypes.any,
+          row: PropTypes.any,
+          cell: PropTypes.any,
+        }),
+        footer: PropTypes.shape({
           wrapper: PropTypes.any,
           row: PropTypes.any,
           cell: PropTypes.any,
@@ -68,11 +76,13 @@ export default {
     {
       data: [],
       useFixedHeader: false,
+      useFixedSummary: false,
       rowKey: 'key',
       rowClassName: () => '',
       prefixCls: 'rc-table',
       bodyStyle: {},
       showHeader: true,
+      showSummary: false,
       scroll: {},
       rowRef: () => null,
       emptyText: () => 'No Data',
@@ -96,6 +106,11 @@ export default {
             row: 'tr',
             cell: 'td',
           },
+          footer: {
+            wrapper: 'tfoot',
+            row: 'tr',
+            cell: 'td',
+          },
         },
         this.components,
       ),
@@ -113,6 +128,11 @@ export default {
           },
           body: {
             wrapper: 'tbody',
+            row: 'tr',
+            cell: 'td',
+          },
+          footer: {
+            wrapper: 'tfoot',
             row: 'tr',
             cell: 'td',
           },
@@ -321,12 +341,29 @@ export default {
       }
       const target = e.target;
       const { scroll = {} } = this;
-      const { ref_headTable, ref_bodyTable } = this;
+      const { ref_headTable, ref_summaryTable, ref_bodyTable } = this;
       if (target.scrollLeft !== this.lastScrollLeft && scroll.x) {
-        if (target === ref_bodyTable && ref_headTable) {
-          ref_headTable.scrollLeft = target.scrollLeft;
-        } else if (target === ref_headTable && ref_bodyTable) {
-          ref_bodyTable.scrollLeft = target.scrollLeft;
+        if (target === ref_bodyTable) {
+          if (ref_headTable) {
+            ref_headTable.scrollLeft = target.scrollLeft;
+          }
+          if (ref_summaryTable) {
+            ref_summaryTable.scrollLeft = target.scrollLeft;
+          }
+        } else if (target === ref_headTable) {
+          if (ref_bodyTable) {
+            ref_bodyTable.scrollLeft = target.scrollLeft;
+          }
+          if (ref_summaryTable) {
+            ref_summaryTable.scrollLeft = target.scrollLeft;
+          }
+        } else if (target === ref_summaryTable) {
+          if (ref_headTable) {
+            ref_headTable.scrollLeft = target.scrollLeft;
+          }
+          if (ref_bodyTable) {
+            ref_bodyTable.scrollLeft = target.scrollLeft;
+          }
         }
         this.setScrollPositionClassName();
       }
@@ -472,7 +509,17 @@ export default {
         />
       );
 
-      return [headTable, bodyTable];
+      const summaryTable = (
+        <SummaryTable
+          key="summary"
+          columns={columns}
+          fixed={fixed}
+          tableClassName={tableClassName}
+          handleBodyScrollLeft={this.handleBodyScrollLeft}
+          expander={this.expander}
+        />
+      )
+      return [headTable, bodyTable, summaryTable];
     },
 
     renderTitle() {
@@ -514,6 +561,9 @@ export default {
     let className = props.prefixCls;
     if (props.useFixedHeader || (props.scroll && props.scroll.y)) {
       className += ` ${prefixCls}-fixed-header`;
+    }
+    if (props.useFixedSummary || (props.scroll && props.scroll.y)) {
+      className += ` ${prefixCls}-fixed-summary`;
     }
     if (this.scrollPosition === 'both') {
       className += ` ${prefixCls}-scroll-position-left ${prefixCls}-scroll-position-right`;

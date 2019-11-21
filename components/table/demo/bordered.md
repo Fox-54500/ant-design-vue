@@ -10,7 +10,7 @@ Add border, title and footer for table.
 
 ```tpl
 <template>
-  <a-table :columns="columns" :dataSource="data" bordered>
+  <a-table size="small" :columns="columns" :scroll="{x: 1200, y:500}" :dataSource="data" bordered showSummary>
     <template slot="name" slot-scope="text">
       <a href="javascript:;">{{text}}</a>
     </template>
@@ -23,23 +23,6 @@ Add border, title and footer for table.
   </a-table>
 </template>
 <script>
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      scopedSlots: { customRender: 'name' },
-    },
-    {
-      title: 'Cash Assets',
-      className: 'column-money',
-      dataIndex: 'money',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-  ];
-
   const data = [
     {
       key: '1',
@@ -63,6 +46,28 @@ Add border, title and footer for table.
 
   export default {
     data() {
+    const columns = [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          scopedSlots: { customRender: 'name' },
+          width: 400,
+          footer: <a>123</a>
+        },
+        {
+          title: 'Cash Assets',
+          className: 'column-money',
+          width: 400,
+          dataIndex: 'money',
+          footer: '123321'
+        },
+        {
+          title: 'Address',
+          dataIndex: 'address',
+          width: 400,
+          footer: '123321'
+        },
+      ];
       return {
         data,
         columns,

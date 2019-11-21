@@ -61,34 +61,7 @@ export default {
   render() {
     return (
       <div>
-        <md cn={md.cn} us={md.us} />
-        <Ajax />
-        <Basic />
         <Bordered />
-        <ColspanRowspan />
-        <CustomFilterPanel />
-        <EditCell />
-        <EditRow />
-        <ExpandChildren />
-        <Expand />
-        <FixedColumnsHeader />
-        <FixedColumns />
-        <FixedHeader />
-        <GroupingColumns />
-        <Head />
-        <NestedTable />
-        <ResetFilter />
-        <RowSelectionAndOperation />
-        <RowSelectionCustom />
-        <RowSelection />
-        <Size />
-        <Template />
-        <api>
-          <template slot="cn">
-            <CN />
-          </template>
-          <US />
-        </api>
       </div>
     );
   },

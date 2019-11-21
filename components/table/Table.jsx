@@ -62,6 +62,7 @@ export default {
   props: initDefaultProps(TableProps, {
     dataSource: [],
     useFixedHeader: false,
+    useFixedSummary: false,
     // rowSelection: null,
     size: 'default',
     loading: false,
@@ -70,6 +71,7 @@ export default {
     locale: {},
     rowKey: 'key',
     showHeader: true,
+    showSummary: false,
     sortDirections: ['ascend', 'descend'],
   }),
 

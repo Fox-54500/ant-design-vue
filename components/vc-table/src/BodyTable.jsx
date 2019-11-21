@@ -44,7 +44,7 @@ export default {
       expander,
       isAnyColumnsFixed,
     } = this;
-    let { useFixedHeader } = this.table;
+    let { useFixedHeader, useFixedSummary } = this.table;
     const bodyStyle = { ...this.table.bodyStyle };
     const innerBodyStyle = {};
 
@@ -68,6 +68,7 @@ export default {
       }
       bodyStyle.overflowY = bodyStyle.overflowY || 'scroll';
       useFixedHeader = true;
+      useFixedSummary = true;
 
       // Add negative margin bottom for scroll bar overflow bug
       const scrollbarWidth = measureScrollbar();
