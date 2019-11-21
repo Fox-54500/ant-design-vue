@@ -13,6 +13,7 @@ export default {
     getRowKey: PropTypes.func.isRequired,
     expander: PropTypes.object.isRequired,
     isAnyColumnsFixed: PropTypes.bool,
+    hasSummary: PropTypes.bool,
   },
   inject: {
     table: { default: () => ({}) },
@@ -36,6 +37,7 @@ export default {
     const { prefixCls, scroll } = this.table;
     const {
       columns,
+      hasSummary,
       fixed,
       tableClassName,
       getRowKey,
@@ -114,10 +116,14 @@ export default {
         </div>
       );
     }
+    let bodyTableClassName = `${prefixCls}-body`;
+    if (hasSummary) {
+      bodyTableClassName += ` ${prefixCls}-body-hide-scroll-bar`;
+    }
     return (
       <div
         key="bodyTable"
-        class={`${prefixCls}-body`}
+        class={bodyTableClassName}
         style={bodyStyle}
         ref="bodyTable"
         onWheel={handleWheel}

@@ -35,12 +35,6 @@ export default {
 
     if (scroll.y) {
       useFixedSummary = true;
-      // Add negative margin bottom for scroll bar overflow bug
-      const scrollbarWidth = measureScrollbar('horizontal');
-      if (scrollbarWidth > 0 && !fixed) {
-        summaryStyle.marginBottom = `-${scrollbarWidth}px`;
-        summaryStyle.paddingBottom = '0px';
-      }
     }
     if (!useFixedSummary || !showSummary) {
       return null;
@@ -49,7 +43,7 @@ export default {
       <div
         key="summaryTable"
         ref={fixed ? null : 'summaryTable'}
-        class={`${prefixCls}-header`}
+        class={`${prefixCls}-summary ${prefixCls}-summary-show-scroll-bar`}
         style={summaryStyle}
         onScroll={handleBodyScrollLeft}
       >

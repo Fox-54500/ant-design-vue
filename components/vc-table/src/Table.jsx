@@ -86,7 +86,8 @@ export default {
       scroll: {},
       rowRef: () => null,
       emptyText: () => 'No Data',
-      customHeaderRow: () => {},
+      customHeaderRow: () => {
+      },
     },
   ),
   data() {
@@ -234,7 +235,7 @@ export default {
       warningOnce(
         key !== undefined,
         'Each record in table should have a unique `key` prop,' +
-          'or set `rowKey` to an unique primary key.',
+        'or set `rowKey` to an unique primary key.',
       );
       return key === undefined ? index : key;
     },
@@ -481,7 +482,7 @@ export default {
 
     renderTable(options) {
       const { columns, fixed, isAnyColumnsFixed } = options;
-      const { prefixCls, scroll = {} } = this;
+      const { prefixCls, scroll = {}, showSummary } = this;
       const tableClassName = scroll.x || fixed ? `${prefixCls}-fixed` : '';
 
       const headTable = (
@@ -500,6 +501,7 @@ export default {
           key="body"
           columns={columns}
           fixed={fixed}
+          hasSummary={showSummary}
           tableClassName={tableClassName}
           getRowKey={this.getRowKey}
           handleWheel={this.handleWheel}
@@ -518,7 +520,7 @@ export default {
           handleBodyScrollLeft={this.handleBodyScrollLeft}
           expander={this.expander}
         />
-      )
+      );
       return [headTable, bodyTable, summaryTable];
     },
 
