@@ -89,10 +89,11 @@ export default {
 
     expander.renderExpandIndentCell(rows, fixed);
 
-    const HeaderWrapper = components.header.wrapper;
+    const HeaderWrapper = isSummary ? components.footer.wrapper : components.header.wrapper;
 
+    let wrapperClassName = `${prefixCls}-t${isSummary ? 'foot' : 'head'}`
     return (
-      <HeaderWrapper class={`${prefixCls}-thead`}>
+      <HeaderWrapper class={wrapperClassName}>
         {rows.map((row, index) => (
           <TableHeaderRow
             prefixCls={prefixCls}
@@ -103,6 +104,7 @@ export default {
             rows={rows}
             row={row}
             components={components}
+            isSummary={isSummary}
             customHeaderRow={customHeaderRow}
           />
         ))}

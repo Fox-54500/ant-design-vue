@@ -14,10 +14,11 @@ const TableHeaderRow = {
     height: PropTypes.any,
     customHeaderRow: PropTypes.func,
     prefixCls: PropTypes.prefixCls,
+    isSummary: PropTypes.bool,
   },
   name: 'TableHeaderRow',
   render(h) {
-    const { row, index, height, components, customHeaderRow, prefixCls } = this;
+    const { row, index, height, components, customHeaderRow, prefixCls, isSummary } = this;
     const HeaderRow = components.header.row;
     const HeaderCell = components.header.cell;
     const rowProps = customHeaderRow(row.map(cell => cell.column), index);
@@ -52,7 +53,10 @@ const TableHeaderRow = {
               [`${prefixCls}-align-${column.align}`]: !!column.align,
             });
           }
-
+          if (isSummary) {
+            delete headerCellProps.class;
+            delete headerCellProps.on;
+          }
           if (typeof HeaderCell === 'function') {
             return HeaderCell(h, headerCellProps, children);
           }

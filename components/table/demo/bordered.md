@@ -52,7 +52,8 @@ Add border, title and footer for table.
           dataIndex: 'name',
           scopedSlots: { customRender: 'name' },
           width: 400,
-          footer: <a>123</a>
+          footer: <a>123</a>,
+          sorter: true
         },
         {
           title: 'Cash Assets',
