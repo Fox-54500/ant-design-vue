@@ -93,6 +93,13 @@ export declare class Column extends AntdComponent {
   fixed?: boolean | 'left' | 'right';
 
   /**
+   * Set column summary content
+   * @default undefined
+   * @type any (string | slot)
+   */
+  footer?: any;
+
+  /**
    * Unique key of this column, you can ignore this prop if you've set a unique dataIndex
    * @type string
    */

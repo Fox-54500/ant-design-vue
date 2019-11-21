@@ -257,6 +257,13 @@ export declare class Table extends AntdComponent {
   showHeader: boolean;
 
   /**
+   * Whether to show table summary
+   * @default true
+   * @type boolean
+   */
+  showSummary: boolean;
+
+  /**
    * Size of table
    * @default 'default'
    * @type string

@@ -118,7 +118,11 @@ export default {
     }
     let bodyTableClassName = `${prefixCls}-body`;
     if (hasSummary) {
-      bodyTableClassName += ` ${prefixCls}-body-hide-scroll-bar`;
+      const scrollbarWidth = measureScrollbar();
+      if (scrollbarWidth > 0) {
+        bodyStyle.marginBottom = `-${scrollbarWidth}px`;
+        bodyStyle.paddingBottom = '0px';
+      }
     }
     return (
       <div
