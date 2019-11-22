@@ -62,7 +62,6 @@ export default {
   props: initDefaultProps(TableProps, {
     dataSource: [],
     useFixedHeader: false,
-    useFixedSummary: false,
     // rowSelection: null,
     size: 'default',
     loading: false,

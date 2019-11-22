@@ -10,7 +10,7 @@ Add border, title and footer for table.
 
 ```tpl
 <template>
-  <a-table size="small" :columns="columns" :scroll="{x: 1200, y:500}" :dataSource="data" bordered showSummary>
+  <a-table size="small" :columns="columns" :scroll="{x: 1200, y: 300}" :dataSource="data" bordered showSummary>
     <template slot="name" slot-scope="text">
       <a href="javascript:;">{{text}}</a>
     </template>

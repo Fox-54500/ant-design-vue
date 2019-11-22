@@ -608,7 +608,8 @@
     overflow: scroll;
   }
 
-  &-fixed-header &-scroll &-header, &-summary {
+  &-scroll &-header,
+  &-scroll &-summary {
     margin-bottom: -20px;
     padding-bottom: 20px;
     overflow: scroll;
@@ -617,9 +618,12 @@
     opacity: 0.9999;
   }
 
-  &-fixed-header &-scroll &-summary {
+  &-scroll &-summary {
     margin-bottom: 0;
     padding-bottom: 0;
+    tr th:last-child {
+      border-right: none;
+    }
   }
 
   &-fixed-left,

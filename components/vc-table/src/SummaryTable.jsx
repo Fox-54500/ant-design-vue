@@ -30,13 +30,13 @@ export default {
   render() {
     const { columns, fixed, tableClassName, handleBodyScrollLeft, expander, table } = this;
     const { prefixCls, scroll, showSummary } = table;
-    let { useFixedSummary } = table;
     const summaryStyle = {};
 
-    if (scroll.y) {
-      useFixedSummary = true;
+    if (!scroll.y) {
+      summaryStyle.overflow = 'auto';
+      summaryStyle.overflowX = 'scroll';
     }
-    if (!useFixedSummary || !showSummary) {
+    if (!showSummary) {
       return null;
     }
     return (

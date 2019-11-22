@@ -21,7 +21,6 @@ export default {
     {
       data: PropTypes.array,
       useFixedHeader: PropTypes.bool,
-      useFixedSummary: PropTypes.bool,
       columns: PropTypes.array,
       prefixCls: PropTypes.string,
       bodyStyle: PropTypes.object,
@@ -76,7 +75,6 @@ export default {
     {
       data: [],
       useFixedHeader: false,
-      useFixedSummary: false,
       rowKey: 'key',
       rowClassName: () => '',
       prefixCls: 'rc-table',
@@ -501,7 +499,7 @@ export default {
           key="body"
           columns={columns}
           fixed={fixed}
-          hasSummary={showSummary}
+          hasSummary={showSummary && this.data.length > 0}
           tableClassName={tableClassName}
           getRowKey={this.getRowKey}
           handleWheel={this.handleWheel}
@@ -521,7 +519,11 @@ export default {
           expander={this.expander}
         />
       );
-      return [headTable, bodyTable, summaryTable];
+      const render = [headTable, bodyTable]
+      if (this.data.length > 0) {
+        render.push(summaryTable);
+      }
+      return render;
     },
 
     renderTitle() {
@@ -563,9 +565,6 @@ export default {
     let className = props.prefixCls;
     if (props.useFixedHeader || (props.scroll && props.scroll.y)) {
       className += ` ${prefixCls}-fixed-header`;
-    }
-    if (props.useFixedSummary || (props.scroll && props.scroll.y)) {
-      className += ` ${prefixCls}-fixed-summary`;
     }
     if (this.scrollPosition === 'both') {
       className += ` ${prefixCls}-scroll-position-left ${prefixCls}-scroll-position-right`;
