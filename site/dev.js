@@ -17,13 +17,23 @@ import Tooltip from '../components/tooltip';
 import Icon from '../components/icon';
 import Tree from '../components/tree';
 import Input from '../components/input';
+import Tag from '../components/tag';
+import Divider from '../components/divider';
+import Table from '../components/table';
+import Button from '../components/button';
+import PopConfirm from '../components/popconfirm';
+
 import '../components/tooltip/style';
 import '../components/icon/style';
 import '../components/tree/style';
 import '../components/input/style';
 import '../components/modal/style';
 import '../components/message/style';
-import '../components/notification/style';
+import '../components/table/style';
+import '../components/tag/style';
+import '../components/button/style';
+import '../components/popconfirm/style';
+import '../components/divider/style';
 import Test from '../components/tree/demo/index.vue';
 import zhCN from './theme/zh-CN';
 import enUS from './theme/en-US';
@@ -47,6 +57,11 @@ Vue.prototype.$confirm = Modal.confirm;
 Vue.prototype.$destroyAll = Modal.destroyAll;
 
 Vue.use(Modal);
+Vue.use(PopConfirm);
+Vue.use(Divider);
+Vue.use(Tag);
+Vue.use(Table);
+Vue.use(Button);
 Vue.use(Tooltip);
 Vue.use(Icon);
 Vue.use(Tree);
@@ -64,12 +79,8 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/test',
-      component: () => import('../components/test/index.vue'),
-    },
-    {
-      path: '/*',
-      component: Test,
+      path: '*',
+      component: () => import('../components/table/demo/index.vue'),
     },
   ],
 });
