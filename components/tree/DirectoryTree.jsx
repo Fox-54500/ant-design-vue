@@ -7,10 +7,15 @@ import Tree, { TreeProps } from './Tree';
 import { calcRangeKeys, getFullKeyList } from './util';
 import Icon from '../icon';
 import BaseMixin from '../_util/BaseMixin';
-import { initDefaultProps, getOptionProps } from '../_util/props-util';
+import {
+  initDefaultProps,
+  getOptionProps,
+  getListeners,
+  getComponentFromProp,
+} from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 
-// export type ExpandAction = false | 'click' | 'dbclick'; export interface
+// export type ExpandAction = false | 'click' | 'dblclick'; export interface
 // DirectoryTreeProps extends TreeProps {   expandAction?: ExpandAction; }
 // export interface DirectoryTreeState {   expandedKeys?: string[];
 // selectedKeys?: string[]; }
@@ -33,7 +38,7 @@ export default {
   props: initDefaultProps(
     {
       ...TreeProps(),
-      expandAction: PropTypes.oneOf([false, 'click', 'doubleclick', 'dbclick']),
+      expandAction: PropTypes.oneOf([false, 'click', 'doubleclick', 'dblclick']),
     },
     {
       showIcon: true,
@@ -104,12 +109,12 @@ export default {
       const { expandAction } = this.$props;
 
       // Expand the tree
-      if (expandAction === 'dbclick' || expandAction === 'doubleclick') {
+      if (expandAction === 'dblclick' || expandAction === 'doubleclick') {
         this.onDebounceExpand(event, node);
       }
 
       this.$emit('doubleclick', event, node);
-      this.$emit('dbclick', event, node);
+      this.$emit('dblclick', event, node);
     },
 
     onSelect(keys, event) {
@@ -171,7 +176,10 @@ export default {
     },
 
     setUncontrolledState(state) {
-      const newState = omit(state, Object.keys(getOptionProps(this)).map(p => `_${p}`));
+      const newState = omit(
+        state,
+        Object.keys(getOptionProps(this)).map(p => `_${p}`),
+      );
       if (Object.keys(newState).length) {
         this.setState(newState);
       }
@@ -183,10 +191,8 @@ export default {
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('tree', customizePrefixCls);
     const { _expandedKeys: expandedKeys, _selectedKeys: selectedKeys } = this.$data;
-    warning(
-      !this.$listeners.doubleclick,
-      '`doubleclick` is deprecated. please use `dbclick` instead.',
-    );
+    const listeners = getListeners(this);
+    warning(!listeners.doubleclick, '`doubleclick` is deprecated. please use `dblclick` instead.');
     const treeProps = {
       props: {
         icon: getIcon,
@@ -194,14 +200,15 @@ export default {
         prefixCls,
         expandedKeys,
         selectedKeys,
+        switcherIcon: getComponentFromProp(this, 'switcherIcon'),
       },
       ref: 'tree',
       class: `${prefixCls}-directory`,
       on: {
-        ...omit(this.$listeners, ['update:selectedKeys']),
+        ...omit(listeners, ['update:selectedKeys']),
         select: this.onSelect,
         click: this.onClick,
-        dbclick: this.onDoubleClick,
+        dblclick: this.onDoubleClick,
         expand: this.onExpand,
       },
     };

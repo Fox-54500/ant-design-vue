@@ -4,7 +4,7 @@ import ColGroup from './ColGroup';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import ExpandableRow from './ExpandableRow';
-import { mergeProps } from '../../_util/props-util';
+import { mergeProps, getListeners } from '../../_util/props-util';
 import { connect } from '../../_util/store';
 function noop() {}
 const BaseTable = {
@@ -50,16 +50,15 @@ const BaseTable = {
         prefixCls,
         childrenColumnName,
         rowClassName,
-        // rowRef,
-        $listeners: {
-          rowClick: onRowClick = noop,
-          rowDoubleclick: onRowDoubleClick = noop,
-          rowContextmenu: onRowContextMenu = noop,
-          rowMouseenter: onRowMouseEnter = noop,
-          rowMouseleave: onRowMouseLeave = noop,
-        },
         customRow = noop,
       } = this.table;
+      const {
+        rowClick: onRowClick = noop,
+        rowDoubleclick: onRowDoubleClick = noop,
+        rowContextmenu: onRowContextMenu = noop,
+        rowMouseenter: onRowMouseEnter = noop,
+        rowMouseleave: onRowMouseLeave = noop,
+      } = getListeners(this.table);
       const { getRowKey, fixed, expander, isAnyColumnsFixed } = this;
 
       const rows = [];
@@ -176,7 +175,9 @@ const BaseTable = {
         <ColGroup columns={columns} fixed={fixed} />
         {hasHead && <TableHeader expander={expander} columns={columns} fixed={fixed} />}
         {body}
-        {hasSummary && <TableHeader isSummary expander={expander} columns={columns} fixed={fixed} />}
+        {hasSummary && (
+          <TableHeader isSummary expander={expander} columns={columns} fixed={fixed} />
+        )}
       </Table>
     );
   },

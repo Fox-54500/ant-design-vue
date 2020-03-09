@@ -11,7 +11,7 @@ import HeadTable from './HeadTable';
 import BodyTable from './BodyTable';
 import SummaryTable from './SummaryTable';
 import ExpandableTable from './ExpandableTable';
-import { initDefaultProps, getOptionProps } from '../../_util/props-util';
+import { initDefaultProps, getOptionProps, getListeners } from '../../_util/props-util';
 import BaseMixin from '../../_util/BaseMixin';
 
 export default {
@@ -84,8 +84,7 @@ export default {
       scroll: {},
       rowRef: () => null,
       emptyText: () => 'No Data',
-      customHeaderRow: () => {
-      },
+      customHeaderRow: () => {},
     },
   ),
   data() {
@@ -162,7 +161,7 @@ export default {
     ['rowClick', 'rowDoubleclick', 'rowContextmenu', 'rowMouseenter', 'rowMouseleave'].forEach(
       name => {
         warningOnce(
-          this.$listeners[name] === undefined,
+          getListeners(this)[name] === undefined,
           `${name} is deprecated, please use customRow instead.`,
         );
       },
@@ -233,7 +232,7 @@ export default {
       warningOnce(
         key !== undefined,
         'Each record in table should have a unique `key` prop,' +
-        'or set `rowKey` to an unique primary key.',
+          'or set `rowKey` to an unique primary key.',
       );
       return key === undefined ? index : key;
     },
@@ -519,7 +518,7 @@ export default {
           expander={this.expander}
         />
       );
-      const render = [headTable, bodyTable]
+      const render = [headTable, bodyTable];
       if (this.data.length > 0) {
         render.push(summaryTable);
       }
@@ -560,7 +559,7 @@ export default {
 
   render() {
     const props = getOptionProps(this);
-    const { $listeners, columnManager, getRowKey } = this;
+    const { columnManager, getRowKey } = this;
     const prefixCls = props.prefixCls;
     let className = props.prefixCls;
     if (props.useFixedHeader || (props.scroll && props.scroll.y)) {
@@ -580,7 +579,7 @@ export default {
         columnManager,
         getRowKey,
       },
-      on: { ...$listeners },
+      on: getListeners(this),
       scopedSlots: {
         default: expander => {
           this.expander = expander;

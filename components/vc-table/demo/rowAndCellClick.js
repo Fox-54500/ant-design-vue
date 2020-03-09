@@ -1,4 +1,4 @@
-/* eslint-disable no-console,func-names,react/no-multi-comp */
+/* eslint-disable no-console,func-names */
 import Table from '../index';
 import '../assets/index.less';
 
@@ -116,7 +116,7 @@ export default {
         customRow={(record, index) => ({
           on: {
             click: onRowClick.bind(null, record, index),
-            dbclick: onRowDoubleClick.bind(null, record, index),
+            dblclick: onRowDoubleClick.bind(null, record, index),
           },
         })}
       />
